@@ -1,0 +1,18 @@
+{
+    "TaskName": "Nback",
+    "Manufacturer": "SNIRF",
+    "PowerLineFrequency": 50.0,
+    "SamplingFrequency": 8.928571428571429,
+    "SoftwareFilters": "n/a",
+    "RecordingDuration": 2277.8559999999998,
+    "RecordingType": "continuous",
+    "EEGChannelCount": 0,
+    "EOGChannelCount": 0,
+    "ECGChannelCount": 0,
+    "EMGChannelCount": 0,
+    "MiscChannelCount": 0,
+    "TriggerChannelCount": 0,
+    "NIRSChannelCount": 32,
+    "NIRSSourceOptodeCount": 14,
+    "NIRSDetectorOptodeCount": 4
+}
