@@ -10530,18 +10530,22 @@ Used Annotations descriptions: ['Baseline', 'practice/LEFT', 'practice/RIGHT', '
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h5 id="LMM">LMM<a class="anchor-link" href="#LMM">¶</a></h5><p>For the group analysis of the GLM results, again a LMM can be used. The dependent variables are the coefficients $\theta$ and the intercept from the model is removed, meaning the model will estimate a separate effect for each combination of the fixed effects without a global baseline. The model includes effects for each unique combination of the 3 fixed effects: $ROI$ (left vs right hemisphere), $Condition$ (control, grasping/left, grasping/right), and $Chromophore$ (HbO, HbR). Just as in the case of the LMM used for the block averaging, the subject ID is taken as random effect.</p>
-<p>The LMM for each measurement ($\theta$) can thus be represented by:
-$$ \theta_{ij} = \sum_{r=1}^{R} \sum_{c=1}^{C} \sum_{k=1}^{K} \beta_{rck} (ROI_{ij}^{(r)} \cdot Condition_{ij}^{(c)} \cdot Chromophore_{ij}^{(k)}) + u_j + \epsilon_{ij}$$
-where:</p>
-<ol>
-<li>$\theta_{ij}$: The response variable for observation $i$ in subject $j$.</li>
-<li>$ROI_{ij}^{(r)}$: The $r$-th level of $ROI$ for observation $i$ in subject $j$.</li>
-<li>$Condition_{ij}^{(c)}$: The $c$-th level of $Condition$ for observation $i$ in subject $j$.</li>
-<li>$Chromophore_{ij}^{(k)}$: The $k$-th level of $Chromophore$ for observation $i$ in subject $j$.</li>
-<li>$\beta_{rck}$: Coefficient for the interaction term between $ROI_{ij}^{(r)}$, $Condition_{ij}^{(c)}$, and $Chromophore_{ij}^{(k)}$.</li>
-<li>$u_j$: Random intercept for subject $j$, assumed to follow a normal distribution: $u_j \sim \mathcal{N}(0, \sigma_u^2)$. Where $\sigma_u^2$ is the variance of the random intercepts.</li>
-<li>$\epsilon_{ij}$: Residual error, assumed to follow a normal distribution: $\epsilon_{ij} \sim \mathcal{N}(0, \sigma_\epsilon^2) $. Where $\sigma_\epsilon^2$ is the variance of the residuals.</li>
-</ol>
+<p>The LMM for each measurement ($\theta$) can thus be represented by:</p>
+$$ \theta_{jric} = \beta_{ric} \cdot (ROI_r \times Condition_i \times Chromophore_c) + u_j + \epsilon_{jric}$$<p>where:</p>
+<ul>
+<li>$\theta_{jric}$: The haemodynamic response variable for condition $i$, region of interest $r$ and chromophore $c$ in subject $j$.</li>
+<li>$ROI_r$: Indicator variable for the region of interest.</li>
+<li>$Condition_i$: Indicator variable for the grasping condition.</li>
+<li>$Chromophore_c$: Indicator variable for the chromophore.</li>
+<li>$\beta_{ric}$: Coefficient for the interaction term between $ROI_r$, $Condition_i$, and $Chromophore_c$.</li>
+<li>$u_j$: Random intercept for subject $j$, assumed to follow a normal distribution:</li>
+</ul>
+<p>$$u_j \sim \mathcal{N}(0, \sigma_u^2)$$
+Where $\sigma_u^2$ is the variance of the random intercepts.</p>
+<ul>
+<li>$\epsilon_{jric}$: Residual error, assumed to follow a normal distribution:</li>
+</ul>
+$$\epsilon_{jric} \sim \mathcal{N}(0, \sigma_\epsilon^2) $$<p>Where $\sigma_\epsilon^2$ is the variance of the residuals.</p>
 </div>
 </div>
 </div>
@@ -11023,6 +11027,37 @@ where:</p>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h4 id="Second-level-analysis-with-covariates--">Second level analysis with covariates  <a class="anchor" id="sub_section_2_1_5"></a><a class="anchor-link" href="#Second-level-analysis-with-covariates--">¶</a></h4>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=2992cb62-a1e3-4fa6-94ea-581b69b8bd63">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>After the first-level GLM analysis is performed for each subject and the $\theta$ values are extracted, a second-level analysis can be performed using the $\theta$ values as dependent variables. The goal is to make inferences at the population level, while accounting for the subject-specific covariate gender, that may influence the HbO/HbR activation. This helps to control for, or explain variance due to these factors, providing more accurate and generalizable conclusions.</p>
+<p>A LMM that investigates the effect of the two fixed effects, $Condition$ (grasping/left, grasping/right) and $Sex$ (male, female), on the dependent variable $\theta$, while accounting for random effects due to the subject variability, can be used to answer this research question.</p>
+<p>The LMM for each measurement ($\theta$) can thus be represented by:
+$$
+    \theta_{ij} = \beta_0 + \beta_1 \cdot Condition_{i} + \beta_2 \cdot Sex_{j} + u_j + \epsilon_{ij}
+$$
+Where:</p>
+<ul>
+<li>$\theta_{ij}$: The haemodynamic response variable for observation $i$ in subject $j$.</li>
+<li>$\beta_0$: The fixed intercept.</li>
+<li>$\beta_1$: The fixed effect coefficient for the $Condition$ (right hand grasping vs. left hand grasping).</li>
+<li>$\beta_2$: The fixed effect coefficient for $Sex$ (male vs. female).</li>
+<li>$Condition_{i}$: Indicator variable for the grasping condition.</li>
+<li>$Sex_{j}$: Indicator variable for sex of the subject.</li>
+<li>$u_j$: Random intercept for subject $j$, assumed to follow a normal distribution:</li>
+</ul>
+$$ u_j \sim \mathcal{N}(0, \sigma_u^2)$$<p>Where $\sigma_u^2$ is the variance of the random intercepts.</p>
+<ul>
+<li>$\epsilon_{ij}$: Residual error, assumed to follow a normal distribution:</li>
+</ul>
+$$\epsilon_{ij} \sim \mathcal{N}(0, \sigma_\epsilon^2) $$<p>Where $\sigma_\epsilon^2$ is the variance of the residuals.</p>
 </div>
 </div>
 </div>
